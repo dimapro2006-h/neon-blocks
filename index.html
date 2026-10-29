@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0b0d1f">
+  <title>Neon Blocks</title>
+  <!-- Усе, щоб гру можна було "встановити" на головний екран -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Neon Blocks">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Кнопка налаштувань -->
+  <button id="settings-btn" class="icon-btn" aria-label="Налаштування">⚙️</button>
+
+  <div id="app">
+    <!-- Верхня панель: рекорд, поточні очки, комбо -->
+    <header class="hud">
+      <div class="hud-box"><span class="label">Рекорд</span><span id="best">0</span></div>
+      <div class="hud-score" id="score">0</div>
+      <div class="hud-box"><span class="label">Комбо</span><span id="combo">—</span></div>
+    </header>
+
+    <!-- Тут малюється вся гра: поле 8×8 і три фігури під ним -->
+    <canvas id="game"></canvas>
+  </div>
+
+  <!-- Екран кінця гри -->
+  <div id="gameover" class="overlay hidden">
+    <div class="panel">
+      <h2>Гру завершено</h2>
+      <p class="final" id="final-score">0</p>
+      <p id="new-best" class="new-best hidden">Новий рекорд!</p>
+      <div class="stats" id="stats"></div>
+      <button id="restart">Грати ще</button>
+    </div>
+  </div>
+
+  <!-- Налаштування звуку -->
+  <div id="settings" class="overlay hidden">
+    <div class="panel">
+      <h2>Налаштування</h2>
+
+      <label class="setting-row">
+        <span>Звук</span>
+        <input type="checkbox" id="sound-on" class="switch">
+      </label>
+
+      <div class="setting-row">
+        <span>Гучність</span>
+        <span id="volume-value" class="setting-value">70%</span>
+      </div>
+      <input type="range" id="volume" min="0" max="100" step="5" value="70">
+
+      <button id="settings-close">Готово</button>
+    </div>
+  </div>
+
+  <!-- Порядок важливий: кожен наступний файл використовує попередні -->
+  <script src="js/pieces.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/draw.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    // Service worker працює лише через https або localhost
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
